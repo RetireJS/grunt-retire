@@ -1,6 +1,8 @@
 /* jshint -W055 */
 'use strict';
 
+require('array.prototype.find').shim();
+
 module.exports = function (grunt) {
 
    var retire = require('retire/lib/retire'),

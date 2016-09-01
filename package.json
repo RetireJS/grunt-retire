@@ -24,6 +24,7 @@
   "dependencies": {
     "retire": "~1.2.x",
     "async": "~1.5.x",
+    "array.prototype.find": "^2.0.0",
     "request": "~2.67.x"
   },
   "devDependencies": {
