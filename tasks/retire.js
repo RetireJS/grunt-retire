@@ -25,6 +25,16 @@ module.exports = function (grunt) {
       var output = {};
       var scanedFile;
 
+      var levels = {
+          'none': 0,
+          'critical': 1,
+          'high': 2,
+          'medium': 3,
+          'low': 4,
+          'all': 9999
+      };
+      var severity = 0;
+
       function taskVulnLogger(msg) {
          var keyValue;
          keyValue = scanedFile.slice(scanedFile.lastIndexOf('/') + 1);
@@ -53,6 +63,12 @@ module.exports = function (grunt) {
          outputFile: false
       });
       var logger = log(options);
+
+      // get numeric rank for severity
+      severity = levels['all'];
+      if('severity' in options) {
+          severity = levels[options.severity];
+      }
 
       if (!options.nocache) {
          options.cachedir = path.resolve(os.tmpdir(), '.retire-cache/');
@@ -95,9 +111,17 @@ module.exports = function (grunt) {
       // log (verbose) options before hooking in the reporter
       grunt.verbose.writeflags(options, 'Options');
 
+      vulnsFound = false;
       // required to throw proper grunt error
       scanner.on('vulnerable-dependency-found', function(e) {
-          vulnsFound = true;
+          e.results.forEach(function(result) {
+              result.vulnerabilities.forEach(function(vulnerability) {
+                  var sev = vulnerability.severity;
+                  if(levels[sev] <= severity) {
+                      vulnsFound = vulnsFound | true;
+                  }
+              });
+          });
       });
       var events = [];
       function once(name, fun) {
@@ -185,7 +209,14 @@ module.exports = function (grunt) {
 
       once('retire-done', function() {
          if(!vulnsFound){
-            grunt.log.writeln("No vulnerabilities found.");
+            if(!options.severity) {
+                grunt.log.writeln('No vulnerabilities found.');
+            }
+            else if(options.severity === 'none') {
+                grunt.log.writeln('Vulnerabilities ignored with severity set to none.');
+            } else {
+                grunt.log.writeln("No " + options.severity  + " vulnerabilities found.");
+            }
          }
          events.forEach(function(e) {
             grunt.event.removeAllListeners(e);
