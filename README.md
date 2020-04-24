@@ -43,6 +43,7 @@ Example configuration below shows default option values and the correct syntax t
       js: ['app/src/*.js'], /** Which js-files to scan. **/
       node: ['node'], /** Which node directories to scan (containing package.json). **/
       options: {
+         severity: 'all',            //accepted values are all, none, low, medium, high, critical
          proxy: 'http://something.something:8080',
          verbose: true,
          packageOnly: true, 
