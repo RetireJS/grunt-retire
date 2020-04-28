@@ -21,9 +21,9 @@
   },
   "scripts": {},
   "dependencies": {
-    "retire": "~1.6.x",
     "async": "~1.5.x",
-    "request": "2.x.x"
+    "request": "^2.88.2",
+    "retire": "^1.6.3"
   },
   "devDependencies": {
     "grunt": "~1.0.x",
