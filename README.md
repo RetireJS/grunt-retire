@@ -120,6 +120,8 @@ Done, without errors.
 
 ## Release History
 
+ * 2020-04-28   1.0.9   Upgrade vulnerable dependencies :)
+ * 2020-04-15   1.0.8   Upgrade to latest version of retire.js 
  * 2017-02-03   1.0.7   Added `.npmignore` so we don't publish `test-files` directory. 
  * 2016-12-13   1.0.6   Added `request@2.x` as a dependency so we are compatible with npm@2.x.
  * 2016-11-29   1.0.5   Removed dependency `request` in package.json. Moved repository from `bekk` to `RetireJS`.
